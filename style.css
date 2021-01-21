@@ -1,0 +1,19 @@
+.redcon {
+    background-color: rgb(250, 250, 250);
+}
+.day-weather {
+    padding-top: 10px;
+}
+.forecast-text {
+    padding-top: 10px;
+    padding-left: 2px;
+}
+.five-day-forecast {
+    padding-left: 10px;
+}
+#city-name {
+    padding-top: 5px;
+}
+#current-temp {
+    padding-top: 20px;
+}
