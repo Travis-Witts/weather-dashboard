@@ -6,7 +6,8 @@ var currentDay = []
 
 var icon = "http://openweathermap.org/img/wn/" + "03n" + ".png"
 
-function currentWeather(cityName) {
+function currentWeather() {
+    var cityName = "adelaide"
     const key = '41027e464b9989a936092c6f0b19cbe3'
     const url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key
     $.ajax({
@@ -15,8 +16,7 @@ function currentWeather(cityName) {
     }).then(function (response) {
         console.log(response)
         var cityName = $("#city-name")
-        $("#city-name").text(city);
-        $("#current-date").text(" " + time + " ");
+        $("#city-name").text(response.name);
         $("#current-weather-icon").attr("src", icon)
         $("#current-temp").text("Temperature: " + currentDay[0])
         $("#current-humidity").text("Humidity: " + currentDay[3])
@@ -41,6 +41,7 @@ function forecast(cityName) {
      }
      var forecastCont = $(".five-day-forecast")
      forecastCont.empty()
+     $("#current-date").text(" " + forecastList[0].dt_txt.substring(8, 10) + "/" + forecastList[0].dt_txt.substring(5, 7) + " ");
      for (i= 0; i < 5; i++) {
         var forecastCol = $("<div>").addClass("col-md-2");
         var forecastCard = $("<div>").addClass("card text-white bg-dark mb-3")
@@ -58,12 +59,7 @@ function forecast(cityName) {
     })
 }
 forecast()
-displayCurrent()
-
-
-function displayCurrent(res) {
-
-}
+currentWeather()
 
 function getDate(timezone) {
     var offset = (timezone / 60) / 60
