@@ -4,7 +4,7 @@ city = city.charAt(0).toUpperCase() + city.slice(1);
 
 var currentDay = []
 
-var icon = "http://openweathermap.org/img/wn/" + "03n" + ".png"
+var icon = "https://openweathermap.org/img/wn/" + "03n" + ".png"
 
 function currentWeather() {
     var cityName = "adelaide"
@@ -27,7 +27,7 @@ function currentWeather() {
 }
 function forecast(cityName) {
     const key = '41027e464b9989a936092c6f0b19cbe3'
-    const url2 = "http://api.openweathermap.org/data/2.5/forecast?q=" + "Adelaide" + "&appid=" + key
+    const url2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + "Adelaide" + "&appid=" + key
     $.ajax({
         url: url2,
         method: "GET"
@@ -48,7 +48,7 @@ function forecast(cityName) {
         forecastCard.css("max-width", "18rem")
         forecastCard.css("height", "200px")
         forecastCard.append($("<h5>").text(forecastList[i].dt_txt.substring(8, 10) + "/" + forecastList[i].dt_txt.substring(5, 7)))
-        var iconURL = "http://openweathermap.org/img/wn/" + forecastList[i].weather[0].icon + ".png"
+        var iconURL = "https://openweathermap.org/img/wn/" + forecastList[i].weather[0].icon + ".png"
         forecastCard.append($("<img>").attr("src", iconURL))
         temperature = forecastList[i].main.temp - 273.15
         forecastCard.append($("<p>").text("Temp: " + temperature.toFixed(1) + "C"))
