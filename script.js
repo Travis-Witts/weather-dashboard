@@ -1,33 +1,32 @@
 
-var city = "atlanta"
-city = city.charAt(0).toUpperCase() + city.slice(1);
 
-var currentDay = []
 
-var icon = "https://openweathermap.org/img/wn/" + "03n" + ".png"
+var city  = ""
 
-function currentWeather() {
-    var cityName = "adelaide"
-    const key = '41027e464b9989a936092c6f0b19cbe3'
-    const url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key
-    $.ajax({
+function currentWeather(cityName) {
+    const key1 = '41027e464b9989a936092c6f0b19cbe3'
+    const url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key1
+    var coord = $.ajax({
         url: url,
         method: "GET"
     }).then(function (response) {
         console.log(response)
-        var cityName = $("#city-name")
         $("#city-name").text(response.name);
+        icon = "https://openweathermap.org/img/wn/" + response.weather[0].icon + ".png"
         $("#current-weather-icon").attr("src", icon)
-        $("#current-temp").text("Temperature: " + currentDay[0])
-        $("#current-humidity").text("Humidity: " + currentDay[3])
-        $("#wind-speed").text("Wind Speed: " + currentDay[2])
+        temperature = response.main.temp - 273.15
+        $("#current-temp").text("Temperature: " + temperature.toFixed(1) + "C")
+        $("#current-humidity").text("Humidity: " + response.main.humidity + "%")
+        $("#wind-speed").text("Wind Speed: " + response.wind.speed)
         $("#uv-index").text()
+        return response.coord
     })
+    return coord
 
 }
 function forecast(cityName) {
-    const key = '41027e464b9989a936092c6f0b19cbe3'
-    const url2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + "Adelaide" + "&appid=" + key
+    const key2 = '41027e464b9989a936092c6f0b19cbe3'
+    const url2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + key2
     $.ajax({
         url: url2,
         method: "GET"
@@ -58,11 +57,34 @@ function forecast(cityName) {
      }
     })
 }
-forecast()
-currentWeather()
 
 function getDate(timezone) {
     var offset = (timezone / 60) / 60
     var time = moment().utcOffset(offset).format('LL')
     return time
 }
+
+async function getUV(cityName) {
+    var city  = cityName;
+    var coords = await currentWeather(city);
+    console.log(coords)
+    const key3 = '41027e464b9989a936092c6f0b19cbe3'
+    const url3 = "http://api.openweathermap.org/data/2.5/uvi?lat=" + coords[0] + "&lon=" + coords[1] + "&appid=" + key3
+    $.ajax({
+        url: url3,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response)
+    })
+}
+
+$(document).on("click", ".searchBTN", function(event) {
+    event.preventDefault()
+    city = $("#city-input").val();
+    city = city.charAt(0).toUpperCase() + city.slice(1);
+    currentWeather(city)
+    forecast(city)
+    getUV(city)
+
+
+})
