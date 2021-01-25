@@ -1,5 +1,5 @@
 # weather-dashboard
-A link to a fully functional deployed website is [HERE](https://travis297.github.io/code-quiz/).
+A link to a fully functional deployed website is [HERE](https://travis297.github.io/weather-dashboard/).
 
 A fully functional Weather app using Openweathermap API.
 
