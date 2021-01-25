@@ -1,4 +1,6 @@
-var historyCities = JSON.parse(localStorage.getItem("historyArray")) || []
+historyBuilder()
+
+
 
 
 
@@ -19,13 +21,13 @@ function currentWeather(cityName) {
         $("#wind-speed").text("Wind Speed: " + response.wind.speed)
         $("#uv-index").text()
         const key3 = '41027e464b9989a936092c6f0b19cbe3'
-        const url3 = "http://api.openweathermap.org/data/2.5/uvi?lat=" + response.coord[0] + "&lon=" + response.coord[1] + "&appid=" + key3
-        // $.ajax({
-        //     url: url3,
-        //     method: "GET"
-        // }).then(function(response) {
-        //     console.log(response)
-        // })
+        const url3 = "http://api.openweathermap.org/data/2.5/uvi?lat=" + response.coord.lat + "&lon=" + response.coord.lon + "&appid=" + key3
+        $.ajax({
+            url: url3,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response)
+        })
     })
 
 }
@@ -70,25 +72,40 @@ function getDate(timezone) {
 }
 function historyBuilder(city) {
     var historyCities = JSON.parse(localStorage.getItem("historyArray")) || []
-    if (historyCities.indexOf(city) >= 0) {
-        localStorage.setItem("historyArray", JSON.stringify(historyCities))
+    if (historyCities != []) {
+        if (typeof city === "string") {
+            if (historyCities.indexOf(city) >= 0) {
+                localStorage.clear();
+                localStorage.setItem("historyArray", JSON.stringify(historyCities))
+            }
+            else {
+                localStorage.clear();
+                historyCities.splice(0, 0, city);
+                localStorage.setItem("historyArray", JSON.stringify(historyCities))
+            }
+        }
     }
     else {
-        historyCities.splice(0, 0, city);
-        localStorage.setItem("historyArray", JSON.stringify(historyCities))
+        if (city) {
+            historyCities.push(city)
+            localStorage.clear();
+            localStorage.setItem("historyArray", JSON.stringify(historyCities))
+        }
     }
     $(".list-group").empty()
-    for (i = 0; i < historyCities.length; i++) {
-        var historyBTN = $("<a>").addClass("list-group-item list-group-item-action")
-        historyBTN.text(historyCities[i])
-        historyBTN.attr("href", "#")
-        $(".list-group").append(historyBTN)
+    if (historyCities.length > 0) {
+        for (i = 0; i < historyCities.length; i++) {
+            var historyBTN = $("<a>").addClass("list-group-item list-group-item-action")
+            historyBTN.text(historyCities[i])
+            historyBTN.attr("href", "#")
+            $(".list-group").append(historyBTN)
+        }
     }
 }
 
 async function getUV(cityName) {
     var city = cityName;
-    
+
 
 }
 
