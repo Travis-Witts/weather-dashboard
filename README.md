@@ -9,6 +9,7 @@ A fully functional Weather app using Openweathermap API.
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [License](#license)
 
 ## Installation
 
@@ -25,3 +26,8 @@ This is a functional weather app where the user can enter a city and it will dis
 
 Once starting you have typed in a few cities they will display on the history list on the left which is saved to localstorage so the user can come back and access frequently accessed weather. This is shown here:
 ![alt text](assets/filled.png)
+
+
+## License
+This project is licensed under the terms of MIT License.
+
